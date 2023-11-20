@@ -1,0 +1,27 @@
+from reports import Report
+from reports import filter_list
+from logger import Logger
+
+logger = Logger
+
+
+def process():
+    report = Report()
+    report.category = "Behavior"
+    report.name = "Events"
+    report.dimensions = ["ga:date", "ga:segment", "ga:eventCategory", "ga:eventAction", "ga:eventLabel", "ga:pagePath"]
+    report.segments = ["gaid::-1", "gaid::-2", "gaid::-3", "sessions::condition::ga:country==United States"]
+    report.metrics = ["ga:totalEvents", "ga:uniqueEvents", "ga:eventValue", "ga:avgEventValue", "ga:sessionsWithEvent", "ga:eventsPerSessionWithEvent"]
+    report.dimension_filters = [{
+        "dimensionName": "ga:pagePath",
+        "operator": "IN_LIST",
+        "expressions": filter_list
+    }]
+    report.process()
+
+
+if __name__ == '__main__':
+    raise RuntimeError("{name} can't be run directly!".format(name=__file__))
+    logger.critical("Runtime Error: File called directly!")
+else:
+    process()
